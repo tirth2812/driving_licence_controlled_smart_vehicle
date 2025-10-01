@@ -19,8 +19,8 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 ## 🔌 Hardware Used
 
 | Component            | Purpose                                      |
-|---------------------|----------------------------------------------|
-| **Raspberry Pi 3**   | Main controller (Remote device in vehicle)   |
+|----------------------|----------------------------------------------|
+| **STM32 Controller** | Main controller (Remote device in vehicle)   |
 | **RC522 RFID Reader**| Reads encrypted driving license cards        |
 | **Fingerprint Sensor (R305)** | Verifies biometric identity         |
 | **GPS Module**       | Sends location in case of emergency          |
@@ -33,38 +33,38 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 
 ## 🔗 Pin Connections
 
-### Raspberry Pi GPIO Mapping
+### STM32 GPIO Mapping
 
-| Device              | Connected To Raspberry Pi GPIO Pins         |
+| Device              | Connected To STM32 GPIO Pins                 |
 |---------------------|----------------------------------------------|
 | **RC522 RFID Module** |  
-| ├ SDA               | GPIO 8 (CE0)  
-| ├ SCK               | GPIO 11 (SCLK)  
-| ├ MOSI              | GPIO 10 (MOSI)  
-| ├ MISO              | GPIO 9 (MISO)  
-| └ RST               | GPIO 25  
+| ├ SDA               | SPI_NSS  
+| ├ SCK               | SPI_SCK  
+| ├ MOSI              | SPI_MOSI  
+| ├ MISO              | SPI_MISO  
+| └ RST               | GPIO (Reset)  
 
 | **Fingerprint Sensor (R305)** |  
-| ├ TX                | GPIO 15 (RXD)  
-| └ RX                | GPIO 14 (TXD)  
+| ├ TX                | UART_RX  
+| └ RX                | UART_TX  
 
 | **GPS Module** |  
-| ├ TX                | GPIO 16 (RXD)  
-| └ RX                | GPIO 17 (TXD)  
+| ├ TX                | UART_RX  
+| └ RX                | UART_TX  
 
 | **GSM Module (SIM800L)** |  
-| ├ TX                | GPIO 18 (RXD)  
-| └ RX                | GPIO 19 (TXD)  
+| ├ TX                | UART_RX  
+| └ RX                | UART_TX  
 
 | **Relay (for ignition)** |  
-| └ IN1               | GPIO 21  
+| └ IN1               | GPIO Output  
 
 | **LCD Display (16x2, I2C)** |  
-| ├ SDA               | GPIO 2  
-| └ SCL               | GPIO 3  
+| ├ SDA               | I2C_SDA  
+| └ SCL               | I2C_SCL  
 
 | **Buzzer / Alert Pin (Optional)** |  
-| └ Signal Pin        | GPIO 22  
+| └ Signal Pin        | GPIO Output  
 
 ---
 
@@ -73,14 +73,14 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 - All modules receive **regulated 5V** from a **buck converter** connected to the car's 12V battery.
 - Used common GND rail for stable communication.
 - Fuse added to power input for protection.
-- Relay module isolated to avoid reverse current into Raspberry Pi.
+- Relay module isolated to avoid reverse current into STM32.
 
 ---
 
 ## 🔄 System Interaction (From Hardware POV)
 
 1. User unlocks vehicle → System powers on
-2. Raspberry Pi waits for:
+2. STM32 waits for:
    - RFID Scan (via RC522)
    - Fingerprint match (via UART)
 3. On success:
@@ -108,4 +108,3 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 - 📌 Built the backbone that makes authentication logic possible
 
 > This hardware infrastructure ensures the **SafeDrive software can run securely, accurately, and reliably**.
-
