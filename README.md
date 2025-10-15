@@ -1,5 +1,4 @@
-# 🚗 SafeDrive — Advanced Driver Authentication System
-### Project: `driving_licence_controlled_smart_vehicle`
+# 🚗 Driving Licence Controlled Smart Vehicle – Multi-Factor Driver Authentication System (MFDAS)
 
 ## 📌 Overview
 
