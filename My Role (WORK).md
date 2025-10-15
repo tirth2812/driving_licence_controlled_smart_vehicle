@@ -1,4 +1,3 @@
-# 🔧 Hardware Integration — SafeDrive: Driver Authentication System
 ### My Contribution to: Driving Licence Controlled Smart Vehicle – Multi-Factor Driver Authentication System (MFDAS)
 As part of the SafeDrive system, my responsibility was to plan, wire, and assemble the physical hardware that enables driver authentication inside the vehicle.
 
