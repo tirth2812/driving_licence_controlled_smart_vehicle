@@ -73,7 +73,7 @@ Accessible from the top-right profile icon.
 | Programming Language| **Python 3.x**      |
 | Database            | **MySQL** (via `PyMySQL`) |
 | UI & Media Layer    | Custom Python UI / Media controls |
-| Hardware            | Raspberry Pi / Embedded Linux-based Player |
+| Hardware            | Raspberry Pi  |
 | RFID                | RC522 / MFRC522 Modules |
 | Biometric           | Fingerprint Sensor (e.g., R305) |
 | Face Recognition    | OpenCV / dlib / face_recognition library |
