@@ -18,91 +18,92 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 
 | Component            | Purpose                                      |
 |----------------------|----------------------------------------------|
-| **raspberry pi**     | Main controller (Remote device in vehicle)   |
+| **Raspberry Pi**     | Main controller (Remote device in vehicle)   |
 | **RC522 RFID Reader**| Reads encrypted driving license cards        |
 | **Fingerprint Sensor (R305)** | Verifies biometric identity         |
 | **GPS Module**       | Sends location in case of emergency          |
 | **GSM Module (SIM800L)** | Sends alerts (SMS)                        |
 | **Relay Module**     | Controls vehicle ignition                    |
 | **LCD 16x2 Display** | Shows status & messages                      |
-| **Power Supply (12V to 5V)** | For regulated logic level            |
+| **Power Supply (12V to 5V)** | Provides regulated logic level        |
 
 ---
 
 ## 🔗 Pin Connections
 
-### STM32 GPIO Mapping
+### Raspberry Pi GPIO Mapping
 
-| Device              | Connected To STM32 GPIO Pins                 |
-|---------------------|----------------------------------------------|
+| Device              | Connected To Raspberry Pi GPIO Pins                 |
+|---------------------|----------------------------------------------------|
 | **RC522 RFID Module** |  
-| ├ SDA               | SPI_NSS  
-| ├ SCK               | SPI_SCK  
-| ├ MOSI              | SPI_MOSI  
-| ├ MISO              | SPI_MISO  
-| └ RST               | GPIO (Reset)  
+| ├ SDA               | GPIO 8 (SPI_CE0)  
+| ├ SCK               | GPIO 11 (SPI_SCK)  
+| ├ MOSI              | GPIO 10 (SPI_MOSI)  
+| ├ MISO              | GPIO 9 (SPI_MISO)  
+| └ RST               | GPIO 25 (Reset)  
 
 | **Fingerprint Sensor (R305)** |  
-| ├ TX                | UART_RX  
-| └ RX                | UART_TX  
+| ├ TX                | GPIO 15 (UART_RX)  
+| └ RX                | GPIO 14 (UART_TX)  
 
 | **GPS Module** |  
-| ├ TX                | UART_RX  
-| └ RX                | UART_TX  
+| ├ TX                | GPIO 16 (UART_RX – Software UART)  
+| └ RX                | GPIO 20 (UART_TX – Software UART)  
 
 | **GSM Module (SIM800L)** |  
-| ├ TX                | UART_RX  
-| └ RX                | UART_TX  
+| ├ TX                | GPIO 15 (UART_RX)  
+| └ RX                | GPIO 14 (UART_TX)  
 
 | **Relay (for ignition)** |  
-| └ IN1               | GPIO Output  
+| └ IN1               | GPIO 21 (Output)  
 
 | **LCD Display (16x2, I2C)** |  
-| ├ SDA               | I2C_SDA  
-| └ SCL               | I2C_SCL  
+| ├ SDA               | GPIO 2 (I2C_SDA)  
+| └ SCL               | GPIO 3 (I2C_SCL)  
 
 | **Buzzer / Alert Pin (Optional)** |  
-| └ Signal Pin        | GPIO Output  
+| └ Signal Pin        | GPIO 18 (PWM / Output)  
 
 ---
 
 ## ⚡ Power Supply
 
 - All modules receive **regulated 5V** from a **buck converter** connected to the car's 12V battery.
-- Used common GND rail for stable communication.
+- Common GND used across all modules for stable communication.
 - Fuse added to power input for protection.
-- Relay module isolated to avoid reverse current into STM32.
+- Relay module isolated to avoid reverse current into Raspberry Pi.
+- SIM800L given a separate regulated 4V supply to prevent Raspberry Pi brownouts.
 
 ---
 
 ## 🔄 System Interaction (From Hardware POV)
 
-1. User unlocks vehicle → System powers on
-2. STM32 waits for:
-   - RFID Scan (via RC522)
-   - Fingerprint match (via UART)
-3. On success:
-   - Relay triggers → Engine ON
-4. On impact detected:
-   - GPS data fetched
-   - GSM sends emergency alert SMS
+1. User unlocks vehicle → System powers on  
+2. Raspberry Pi waits for:  
+   - RFID Scan (via RC522)  
+   - Fingerprint match (via UART)  
+3. On success:  
+   - Relay triggers → Engine ON  
+4. On impact detected:  
+   - GPS data fetched  
+   - GSM sends emergency alert SMS  
 
 ---
 
 ## 🧠 Notes on Integration
 
-- Signal noise avoided by separating UART lines across GPS, GSM, and fingerprint
-- All UART devices tested one-by-one before final assembly
-- Used jumper cables + pin headers + breadboard for testing
-- Final setup prepared for vehicle dashboard fitting
+- Avoided signal noise by separating UART lines for GPS, GSM, and fingerprint modules.
+- Tested each UART device individually before full system assembly.
+- Used jumper cables, pin headers, and breadboards during prototyping.
+- Final wiring prepared for clean dashboard installation.
 
 ---
 
 ## ✅ Summary of My Work
 
-- 📌 Assembled and wired entire hardware system
-- 📌 Mapped and verified all communication interfaces (SPI/UART/I2C)
-- 📌 Ensured safe power design with voltage regulators and fuse
-- 📌 Built the backbone that makes authentication logic possible
+- 📌 Assembled and wired entire Raspberry Pi–based hardware system  
+- 📌 Mapped and verified all communication interfaces (SPI/UART/I2C)  
+- 📌 Ensured safe power design with voltage regulators and fuse  
+- 📌 Built the backbone that makes authentication logic possible  
 
-> This hardware infrastructure ensures the **SafeDrive software can run securely, accurately, and reliably**.
+> This hardware infrastructure ensures the **SafeDrive system can run securely, accurately, and reliably**.
