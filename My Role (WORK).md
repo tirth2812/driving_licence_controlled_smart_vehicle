@@ -18,7 +18,7 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
 
 | Component            | Purpose                                      |
 |----------------------|----------------------------------------------|
-| **STM32 Controller** | Main controller (Remote device in vehicle)   |
+| **raspberry pi**     | Main controller (Remote device in vehicle)   |
 | **RC522 RFID Reader**| Reads encrypted driving license cards        |
 | **Fingerprint Sensor (R305)** | Verifies biometric identity         |
 | **GPS Module**       | Sends location in case of emergency          |
