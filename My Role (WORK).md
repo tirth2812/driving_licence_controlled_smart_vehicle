@@ -88,14 +88,7 @@ I worked on the **hardware integration and physical wiring** of the embedded sys
    - GPS data fetched  
    - GSM sends emergency alert SMS  
 
----
 
-## 🧠 Notes on Integration
-
-- Avoided signal noise by separating UART lines for GPS, GSM, and fingerprint modules.
-- Tested each UART device individually before full system assembly.
-- Used jumper cables, pin headers, and breadboards during prototyping.
-- Final wiring prepared for clean dashboard installation.
 
 ---
 
